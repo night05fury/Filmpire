@@ -20,6 +20,7 @@ export default makeStyles((theme) => ({
 
     },
   },
+  // movie Posters CSS here
   image: {
     borderRadius: '10px',
     height: '300px',
@@ -30,13 +31,12 @@ export default makeStyles((theme) => ({
       textDecoration: 'none',
     },
   },
-
+  // Title stylinf done here 
   title: {
     textAlign: 'center',
     color: theme.palette.text.primary,
     textOverflow: 'ellipsis',
     // elipsis is the three dots that appear when the text is too long
-
     width: '230px',
     whiteSpace: 'nowrap',
     overflow: 'hidden',

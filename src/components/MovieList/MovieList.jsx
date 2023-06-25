@@ -7,6 +7,7 @@ const MovieList = ({ movies }) => {
   const classes = useStyles();
 
   return (
+    // Using the Grid Template for displaying the Movies
     <Grid container className={classes.moviesConatiner}>
       {movies.results.map((movie, i) => (
         <Movie key={i} movie={movie} i={i} />
