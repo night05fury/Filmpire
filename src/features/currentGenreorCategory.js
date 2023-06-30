@@ -12,11 +12,17 @@ export const currentGenreorCategory = createSlice({
       // here we are using the action.payload to set the currentGenreorCategoryName via the left click of the mouse
       // console.log(action.payload);
       state.currentGenreIDorCategoryName = action.payload;
+      state.searchQuery = '';
     },
+    searchMovie: (state, action) => {
+      // console.log(action.payload);
+      state.searchQuery = action.payload;
+    },
+
   },
 
 });
 
-export const { selectGenreorCategory } = currentGenreorCategory.actions;
+export const { selectGenreorCategory, searchMovie } = currentGenreorCategory.actions;
 // exporting this reducer so that it can be used in the store.js
 export default currentGenreorCategory.reducer;

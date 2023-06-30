@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 import { useTheme } from '@mui/material/styles';
 import useStyles from './styles';
 import Sidebar from '../Sidebar/Sidebar';
+import Search from '../Search/Search';
 
 
 const NavBar = () => {
@@ -41,7 +42,8 @@ const NavBar = () => {
             {/* this is for the Toggling of Light mode and dark mode */}
             {theme.palette.mode === 'dark' ? <Brightness7 /> : <Brightness4 />}
           </IconButton>
-          {!isMobile && 'Search...'}
+          {/* // if not mobile then show in between */}
+          {!isMobile && <Search />}
           {/* This is for the Login and Profile section */}
           <div>
             { !isAuthenticated ? AccountCircle(
@@ -72,7 +74,7 @@ const NavBar = () => {
           </div>
 
           {/* if it is a mobile device, then show the search button at last */}
-          {isMobile && 'Search...'}
+          {isMobile && <Search />}
         </Toolbar>
       </AppBar>
       <div>

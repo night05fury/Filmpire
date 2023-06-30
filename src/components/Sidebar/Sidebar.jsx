@@ -27,8 +27,8 @@ const Sidebar = ({ setMobileOpen }) => {
 
   const dispatch = useDispatch(); // to send an action to the store
 
-  const { data, error, isFetching } = useGetGenresQuery();
-  console.log(data);
+  const { data, isFetching } = useGetGenresQuery();
+  // console.log(data);
 
   return (
     <>

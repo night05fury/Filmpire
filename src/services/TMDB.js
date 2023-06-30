@@ -2,7 +2,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 // This is using th process.env to hide the API key from the public
 const API_KEY = process.env.REACT_APP_TMDB_API_KEY;
-const page = 1;
+// const page = 1;
 export const tmdbApi = createApi({
 
   reducerPath: 'tmdbApi',
@@ -12,7 +12,12 @@ export const tmdbApi = createApi({
     // * Get movies by [TYPE] e.g. popular, top_rated, now_playing, upcoming
     // This is the endpoint for the movies
     getMovies: builder.query({
-      query: ({ currentGenreIDorCategoryName, page }) => {
+      query: ({ currentGenreIDorCategoryName, page, searchQuery }) => {
+        //* Get Movie by Search Query
+        if (searchQuery) {
+          return `/search/movie?query=${searchQuery}&page=${page}&api_key=${API_KEY}`;
+        }
+
         // * Get Movie by Categories e.g. Top rated , Popular, Now Playing, Upcoming
         if (currentGenreIDorCategoryName && typeof currentGenreIDorCategoryName === 'string') {
           return `movie/${currentGenreIDorCategoryName}?page=${page}&api_key=${API_KEY}`;
@@ -23,13 +28,11 @@ export const tmdbApi = createApi({
         // Get Popular Movies Default
         return `movie/popular?page=${page}&api_key=${API_KEY}`;
       },
-    }),
-
-    // * Get movies by [GENRE] e.g. comedy, action, horror, drama, animated, romance
+    }), // end of query
+    //* Getting the Genre for the sidebar
     getGenres: builder.query({
       query: () => `genre/movie/list?api_key=${API_KEY}&language=en-US`,
-    }),
-  }),
+    }) }),
 });
 
 export const {

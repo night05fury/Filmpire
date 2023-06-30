@@ -10,11 +10,11 @@ import selectGenreorCategory from '../../features/currentGenreorCategory';
 const Movies = () => {
   // creating a data variable to store the data from the API
   const [page, setPage] = useState(1);
-  const { currentGenreIDorCategoryName } = useSelector((state) => state.currentGenreorCategory);
+  const { currentGenreIDorCategoryName, searchQuery } = useSelector((state) => state.currentGenreorCategory);
 
-  //console.log(currentGenreIDorCategoryName);
-  const { data, error, isFetching } = useGetMoviesQuery({ currentGenreIDorCategoryName, page });
-//console.log(data);
+  // console.log(currentGenreIDorCategoryName);
+  const { data, error, isFetching } = useGetMoviesQuery({ currentGenreIDorCategoryName, page, searchQuery });
+  // console.log(data);
   if (isFetching) { // for loading movies
     return (
       <Box display="flex" justifyContent="center">
@@ -35,7 +35,7 @@ const Movies = () => {
   // for error handling
   if (error) return `An error has occurred: ${error.message}`;
 
-  console.log(data);
+  // console.log(data);
 
   return (
     <div>
