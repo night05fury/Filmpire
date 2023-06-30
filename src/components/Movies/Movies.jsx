@@ -5,11 +5,16 @@ import { useSelector } from 'react-redux';
 
 import { useGetMoviesQuery } from '../../services/TMDB';
 import MovieList from '../MovieList/MovieList';
+import selectGenreorCategory from '../../features/currentGenreorCategory';
 
 const Movies = () => {
   // creating a data variable to store the data from the API
-  const { data, error, isFetching } = useGetMoviesQuery();
+  const [page, setPage] = useState(1);
+  const { currentGenreIDorCategoryName } = useSelector((state) => state.currentGenreorCategory);
 
+  //console.log(currentGenreIDorCategoryName);
+  const { data, error, isFetching } = useGetMoviesQuery({ currentGenreIDorCategoryName, page });
+//console.log(data);
   if (isFetching) { // for loading movies
     return (
       <Box display="flex" justifyContent="center">

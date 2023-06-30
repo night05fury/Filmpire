@@ -9,6 +9,8 @@ export default makeStyles((theme) => ({
   links: {
 
     alignItems: 'center',
+    textDecoration: 'none',
+
     fontWeight: 'bolder',
     [theme.breakpoints.down('sm')]: {
       display: 'flex',
@@ -16,7 +18,6 @@ export default makeStyles((theme) => ({
     },
     '&:hover': {
       cursor: 'pointer',
-      textDecoration: 'none',
 
     },
   },
@@ -33,7 +34,8 @@ export default makeStyles((theme) => ({
   },
   // Title stylinf done here 
   title: {
-    textAlign: 'center',
+    // justifyItems: 'left',
+    textAlign: 'left',
     color: theme.palette.text.primary,
     textOverflow: 'ellipsis',
     // elipsis is the three dots that appear when the text is too long
@@ -44,5 +46,11 @@ export default makeStyles((theme) => ({
     marginBottom: '0px',
 
   },
+  // Rating styling done here
+  Rating: {
+    // display: 'flex',
+    justifyContent: 'center',
+  },
+
 
 }));

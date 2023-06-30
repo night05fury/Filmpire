@@ -18,6 +18,11 @@ const Movie = ({ movie, i }) => {
           <Typography className={classes.title} variant="h5">
             {movie.title}
           </Typography>
+          <Tooltip disableTouchListener title={`${movie.vote_average}/10`}>
+            <div className={classes.Rating}>
+              <Rating readOnly value={movie.vote_average / 2} precision={0.1} />
+            </div>
+          </Tooltip>
         </Link>
       </Grow>
     </Grid>

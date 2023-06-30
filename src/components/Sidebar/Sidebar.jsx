@@ -2,7 +2,14 @@ import React, { useEffect } from 'react';
 import { Divider, List, ListItem, ListItemText, ListSubheader, ListItemIcon, Box, CircularProgress } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { useTheme } from '@mui/material/styles';
+import { useDispatch, useSelector } from 'react-redux';
 import useStyles from './styles';
+// importing the useGetGenresQuery from TMDB.js
+import { useGetGenresQuery } from '../../services/TMDB';
+// importing the icons from Asset
+import GenreIcon from '../../assets/genres';
+// importing the Reducer genreorCategory from store.js
+import { selectGenreorCategory } from '../../features/currentGenreorCategory';
 
 const Sidebar = ({ setMobileOpen }) => {
   const theme = useTheme();
@@ -15,16 +22,13 @@ const Sidebar = ({ setMobileOpen }) => {
   const Categories = [
     { label: 'Popular', value: 'popular' },
     { label: 'Top Rated', value: 'top_rated' },
-    { label: 'Latest', value: 'latest' },
+    { label: 'Latest', value: 'upcoming' },
   ];
-  const demoCategories = [
-    { label: 'Comedy', value: 'comedy' },
-    { label: 'Action', value: 'action' },
-    { label: 'Horror', value: 'horor' },
-    { label: 'Drama', value: 'drama' },
-    { label: 'Animated', value: 'animated' },
-    { label: 'Romance', value: 'romance' },
-  ];
+
+  const dispatch = useDispatch(); // to send an action to the store
+
+  const { data, error, isFetching } = useGetGenresQuery();
+  console.log(data);
 
   return (
     <>
@@ -40,10 +44,10 @@ const Sidebar = ({ setMobileOpen }) => {
         <ListSubheader>Categories</ListSubheader>
         {Categories.map(({ label, value }) => (
           <Link key={value} className={classes.links} to="/">
-            <ListItem onClick={() => {}} button>
-              {/* <ListItemIcon>
-                <img src={redLogo} className={classes.genreImages} height={30} />
-              </ListItemIcon> */}
+            <ListItem onClick={() => dispatch(selectGenreorCategory(value))} button>
+              <ListItemIcon>
+                <img src={GenreIcon[value.toLowerCase()]} className={classes.genreImages} height={30} />
+              </ListItemIcon>
               <ListItemText primary={label} />
             </ListItem>
           </Link>
@@ -52,16 +56,22 @@ const Sidebar = ({ setMobileOpen }) => {
       <Divider />
       <List>
         <ListSubheader>Genres</ListSubheader>
-        {demoCategories.map(({ label, value }) => (
-          <Link key={value} className={classes.links} to="/">
-            <ListItem onClick={() => {}} button>
-              {/* <ListItemIcon>
-                <img src={redLogo} className={classes.genreImages} height={30} />
-              </ListItemIcon> */}
-              <ListItemText primary={label} />
-            </ListItem>
-          </Link>
-        ))}
+        {(isFetching) ? (
+          <Box display="flex" justifyContent="center">
+            <CircularProgress size="4rem" />
+          </Box>
+        ) : (
+          data.genres.map(({ name, id }) => (
+            <Link key={name} className={classes.links} to="/">
+              <ListItem onClick={() => dispatch(selectGenreorCategory(id))} button>
+                <ListItemIcon>
+                  <img src={GenreIcon[name.toLowerCase()]} className={classes.genreImages} height={30} />
+                </ListItemIcon>
+
+                <ListItemText primary={name} />
+              </ListItem>
+            </Link>
+          )))}
       </List>
     </>
   );

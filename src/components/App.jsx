@@ -30,7 +30,7 @@ const App = () => {
           </Route>
           <Route path="/">
             <h1>
-              Movies Home - Filmpire
+          
               <Movies />
             </h1>
           </Route>
