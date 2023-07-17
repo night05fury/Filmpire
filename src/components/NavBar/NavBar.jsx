@@ -7,7 +7,7 @@ import { useTheme } from '@mui/material/styles';
 import useStyles from './styles';
 import Sidebar from '../Sidebar/Sidebar';
 import Search from '../Search/Search';
-
+import { fetchToken } from '../../utils';
 
 const NavBar = () => {
   // using hooks here for styling and media queries
@@ -16,7 +16,7 @@ const NavBar = () => {
   const classes = useStyles();
   const isMobile = useMediaQuery('(max-width: 600px)');
   const theme = useTheme();
-  const isAuthenticated = true;
+  const isAuthenticated = false;
 
   return (
     <>
@@ -44,12 +44,12 @@ const NavBar = () => {
           </IconButton>
           {/* // if not mobile then show in between */}
           {!isMobile && <Search />}
-          {/* This is for the Login and Profile section */}
+          {/* This is for the Login & Authentication and Profile section */}
           <div>
             { !isAuthenticated ? AccountCircle(
               <Button
                 color="inherit"
-                onClick={() => {}}
+                onClick={fetchToken}
               >
                 Login &nbsp; <AccountCircle />
               </Button>,
