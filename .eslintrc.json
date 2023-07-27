@@ -14,7 +14,9 @@
 
   "plugins": [
     "import",
-    "promise"
+    "jsx-a11y",
+    "react",
+    "react-hooks"
   ],
 
   "globals": {
