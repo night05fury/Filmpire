@@ -1,13 +1,15 @@
 /* eslint-disable no-multiple-empty-lines */
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { AppBar, Toolbar, IconButton, Drawer, Button, Avatar, useMediaQuery } from '@mui/material';
 import { Menu, AccountCircle, Brightness4, Brightness7 } from '@mui/icons-material';
 import { Link } from 'react-router-dom';
 import { useTheme } from '@mui/material/styles';
+import { useDispatch, useSelector } from 'react-redux';
 import useStyles from './styles';
 import Sidebar from '../Sidebar/Sidebar';
 import Search from '../Search/Search';
-import { fetchToken } from '../../utils';
+import { fetchToken, getSessionId, moviesAPI } from '../../utils';
+import { setUserLoginDetails, selectUser } from '../../features/auth';
 
 const NavBar = () => {
   // using hooks here for styling and media queries
@@ -16,7 +18,32 @@ const NavBar = () => {
   const classes = useStyles();
   const isMobile = useMediaQuery('(max-width: 600px)');
   const theme = useTheme();
-  const isAuthenticated = false;
+
+  const dispatch = useDispatch();
+
+
+  const { isAuthenticated, user } = useSelector(selectUser);
+  console.log(isAuthenticated);
+  console.log(user);
+  useEffect(() => {
+    const logInUser = async () => {
+      const token = localStorage.getItem('request_token');
+      const sessionIdfromStorage = localStorage.getItem('session_id');
+
+      if (typeof token === 'string') {
+        if (sessionIdfromStorage) {
+          const { data: userData } = await moviesAPI.get(`/account?session_id=${sessionIdfromStorage}`);
+          dispatch(setUserLoginDetails(userData));
+        } else {
+          const sessionId = await getSessionId();
+          const { data: userData } = await moviesAPI.get(`/account?session_id=${sessionId}`);
+          dispatch(setUserLoginDetails(userData));
+        }
+      }
+    };
+
+    logInUser();
+  }, []);
 
   return (
     <>
@@ -46,30 +73,33 @@ const NavBar = () => {
           {!isMobile && <Search />}
           {/* This is for the Login & Authentication and Profile section */}
           <div>
-            { !isAuthenticated ? AccountCircle(
-              <Button
-                color="inherit"
-                onClick={fetchToken}
-              >
-                Login &nbsp; <AccountCircle />
-              </Button>,
+            { !isAuthenticated ? (
+              <>
+                <Button
+                  color="inherit"
+                  onClick={fetchToken}
+                >
+                  Login
+                </Button>
+              </>
             ) : (
-              <Button
-                color="inherit"
-                component={Link}
-                to="/profile/:id"
-                className={classes.linkButton}
-                onClick={() => {}}
-              >
-                {/* This is for AUthenticated users section to show their profile icon along with checking if it is a mobile device or not  */}
-                {!isMobile && <>My Movies &nbsp;</>}
-                <Avatar
-                  style={{ width: 30, height: 30 }}
-                  alt="Profile Picture"
-                  src="https://avatarfiles.alphacoders.com/341/341231.png"
-                />
-              </Button>
+              <>
+                <Button
+                  color="inherit"
+                  component={Link}
+                  to={`/profile/${user.id}`}
+                  className={classes.linkButton}
+                  onClick={() => {}}
+                >
+                  {!isMobile && <>My Movies &nbsp;</>}
+                  <Avatar
+                    style={{ width: 30, height: 30 }}
+                    alt="Profile Picture"
+                    src="https://avatarfiles.alphacoders.com/341/341231.png"
+                  />
+                </Button>
 
+              </>
             )}
           </div>
 
