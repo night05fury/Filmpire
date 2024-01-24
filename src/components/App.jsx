@@ -28,19 +28,18 @@ const App = () => {
               <Actors />
             </h1>
           </Route>
-          <Route path="/">
+          <Route exact path="/">
             <h1>
           
               <Movies />
             </h1>
           </Route>
-          <Route path="/profile/:id">
+          <Route exact path="/profile/:id">
             <h1>
-              Profile - Filmpire
+              
               <Profile />
             </h1>
           </Route>
-
         </Switch>
       </main>
     </div>

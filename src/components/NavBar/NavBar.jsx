@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import useStyles from './styles';
 import Sidebar from '../Sidebar/Sidebar';
 import Search from '../Search/Search';
-import { fetchToken, getSessionId, moviesAPI } from '../../utils';
+import { fetchToken, createSessionId, moviesAPI } from '../../utils';
 import { setUserLoginDetails, selectUser } from '../../features/auth';
 
 const NavBar = () => {
@@ -35,7 +35,7 @@ const NavBar = () => {
           const { data: userData } = await moviesAPI.get(`/account?session_id=${sessionIdfromStorage}`);
           dispatch(setUserLoginDetails(userData));
         } else {
-          const sessionId = await getSessionId();
+          const sessionId = await createSessionId();
           const { data: userData } = await moviesAPI.get(`/account?session_id=${sessionId}`);
           dispatch(setUserLoginDetails(userData));
         }

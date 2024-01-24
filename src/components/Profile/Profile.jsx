@@ -12,12 +12,13 @@ const Profile = () => {
     localStorage.clear();
     window.location.href = '/';
   };
-  const FavoriteMovies = user.favoriteMovies;
-  console.log(user);
+  // const FavoriteMovies = user.favoriteMovies;
+  const FavoriteMovies = [];
+  //console.log(user);
   return (
     <Box>
-      <Box>
-        <Typography variant="h4" component="h1" gutterBottom>
+      <Box display='flex' justifyContent="space-between" marginTop='100px'>
+        <Typography variant="h4"  gutterBottom marginTop="20">
           My Profile - {user.username }
         </Typography>
         <Button color="inherit" onClick={logout}>
@@ -25,10 +26,10 @@ const Profile = () => {
           <ExitToApp />
         </Button>
       </Box>
-      {!FavoriteMovies.length ? <Typography variant="h5"> Add favourite or watchlist some movies to see them here!</Typography>
+      {!FavoriteMovies.length ? <Typography variant="h5" > Add favourite or watchlist some movies to see them here!</Typography>
         : (
           <Box>
-            <Typography variant="h5">Favourite Movies</Typography>
+            <Typography variant="h5">Favorite Movies</Typography>
           </Box>
         )}
     </Box>
