@@ -14,7 +14,7 @@ export const tmdbApi = createApi({
       //* Getting the Genre for the sidebar
       getGenres: builder.query({
         query: () => `genre/movie/list?api_key=${API_KEY}&language=en-US`,
-      }) 
+      }), 
     // This is the endpoint for the movies
     getMovies: builder.query({
       query: ({ currentGenreIDorCategoryName, page, searchQuery }) => {
@@ -37,13 +37,13 @@ export const tmdbApi = createApi({
   
 
     //* Getting the Movie informations like Videos , Ratings, credits, actors ,etc.
-    getMovies: builder.query({
-      query:(id)=>`/movie/${id}?append_to_response=videos,credits&api_key=$P{API_KEY}`,
+    getMovie: builder.query({
+      query:(id)=>`/movie/${id}?append_to_response=videos,credits&api_key=${API_KEY}`,
     }) 
   }),
 });
 
 export const {
-  useGetMoviesQuery, useGetGenresQuery,
+  useGetMoviesQuery, useGetGenresQuery,useGetMovieQuery
 
 } = tmdbApi;

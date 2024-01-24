@@ -4,13 +4,37 @@ import { Movie as MovieIcon, Theaters, Language, PlusOne, Favorite, FavoriteBord
 import {Link,  useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Axios } from 'axios';
-
+import { useGetMovieQuery } from '../../services/TMDB';
 
 
 const MovieInfo = () => {
-  console.log('MovieInfo');
 
   const {id}=useParams();
+  const {data, isFetching,error}=useGetMovieQuery(id);
+console.log(data);
+  if(isFetching) {
+    return(
+      <Box display="flex" justifyContent="center">
+        <CircularProgress size="8rem" />
+
+        
+      </Box>
+    );
+  }
+  if(error)
+  {
+    return(
+      <Box>
+        <Link  to="/">Something has gone wrong</Link>
+      </Box>
+    );
+  }
+  return (
+    <Grid container className={ClassNames.containerSpace}>
+  Test
+    </Grid>
+  );
+
   return (
     <div>
       Movie Information1
