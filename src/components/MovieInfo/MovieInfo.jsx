@@ -57,32 +57,32 @@ const MovieInfo = () => {
             <Typography variant='subtitle1' align='center' gutterBottom style={{ marginLeft: '1em' }}>
               {data?.vote_average}/10
             </Typography>
-          
-          <Typography variant='h6' align='center' gutterBottom style={{ marginLeft: '5em' }}>
-            {data?.runtime}min {data?.spoken_languages.length > 0 ? `/ ${data?.spoken_languages[0].name}` : ''}
-          </Typography>
-        </Box>
+
+            <Typography variant='h6' align='center' gutterBottom style={{ marginLeft: '5em' }}>
+              {data?.runtime}min {data?.spoken_languages.length > 0 ? `/ ${data?.spoken_languages[0].name}` : ''}
+            </Typography>
+          </Box>
         </Grid>
         <Grid item className={classes.genreContainer}>
           {data?.genres?.map((genre, i) => (
             <Link key={genre.name} className={classes.links} to="/" onClick={() => dispatch(selectGenreorCategory(genre.id))}>
-        <img src={GenreIcon[genre.name.toLowerCase()]} className={classes.genreImage} height={30} />
-            <Typography variant='subtitle1' color='textPrimary'>
-              {genre?.name}
+              <img src={GenreIcon[genre.name.toLowerCase()]} className={classes.genreImage} height={30} />
+              <Typography variant='subtitle1' color='textPrimary'>
+                {genre?.name}
 
-            </Typography>
-    </Link>
-  ))}
-    </Grid >
-    </Grid >
+              </Typography>
+            </Link>
+          ))}
+        </Grid >
+      </Grid >
     </Grid >
   );
 
-return (
-  <div>
-    Movie Information1
-  </div>
-);
+  return (
+    <div>
+      Movie Information1
+    </div>
+  );
 };
 
 export default MovieInfo;
