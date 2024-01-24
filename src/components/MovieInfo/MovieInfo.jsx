@@ -4,7 +4,7 @@ const MovieInfo = () => {
   console.log('MovieInfo');
   return (
     <div>
-      MovieInformation
+      MovieInformation asdjhatsgjkhdgaskjdhgjkashdjka
     </div>
   );
 };
