@@ -10,6 +10,11 @@ export const tmdbApi = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: 'https://api.themoviedb.org/3' }),
   endpoints: (builder) => ({
     // * Get movies by [TYPE] e.g. popular, top_rated, now_playing, upcoming
+    
+      //* Getting the Genre for the sidebar
+      getGenres: builder.query({
+        query: () => `genre/movie/list?api_key=${API_KEY}&language=en-US`,
+      }) 
     // This is the endpoint for the movies
     getMovies: builder.query({
       query: ({ currentGenreIDorCategoryName, page, searchQuery }) => {
@@ -29,10 +34,13 @@ export const tmdbApi = createApi({
         return `movie/popular?page=${page}&api_key=${API_KEY}`;
       },
     }), // end of query
-    //* Getting the Genre for the sidebar
-    getGenres: builder.query({
-      query: () => `genre/movie/list?api_key=${API_KEY}&language=en-US`,
-    }) }),
+  
+
+    //* Getting the Movie informations like Videos , Ratings, credits, actors ,etc.
+    getMovies: builder.query({
+      query:(id)=>`/movie/${id}?append_to_response=videos,credits&api_key=$P{API_KEY}`,
+    }) 
+  }),
 });
 
 export const {
