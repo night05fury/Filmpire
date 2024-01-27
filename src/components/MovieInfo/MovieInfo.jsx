@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Modal, Typography, Rating, Button, ButtonGroup, Grid, Box, CircularProgress, useMediaQuery } from '@mui/material';
 import { Movie as MovieIcon, Theaters, Language, PlusOne, Favorite, FavoriteBorderOutlined, Remove, ArrowBack, Celebration, Add, ArrowRight, ArrowLeft } from '@mui/icons-material';
 import { Link, useParams } from 'react-router-dom';
@@ -19,6 +19,7 @@ const MovieInfo = () => {
   const {data:recommendation,isFetching:isRecommendationsFetching} = useGetRecommendationQuery({list:'/recommendations',movie_id:id});  // using the hook here for passing the list and movie id
   const isMovieFavorited = true;
   const isMovieWatchlisted = true;
+  const [open,setOpen] = useState(false); 
   const addToFavorites=() => {
 // to be filled in later
 };
@@ -119,7 +120,7 @@ const addToWatchlist=() => {
             <ButtonGroup size='medium' variant='outlined'>
               <Button target='_blank' rel='noopener noreferrer' href={data?.homepage} endIcon={<Language/>}>Website</Button>
               <Button target='_blank' rel='noopener noreferrer' href={`https://www.imdb.com/title/${data?.imdb_id}`} endIcon={<MovieIcon/>}>IMDB</Button>
-              <Button onClick={()=>{}} target='_blank' href='#' endIcon={<Theaters/>}>Trailer</Button>
+              <Button onClick={()=>setOpen(true)} endIcon={<Theaters/>}>Trailer</Button>
             </ButtonGroup>  
           </Grid>
 
@@ -145,10 +146,23 @@ const addToWatchlist=() => {
              You Might Also Like 
             </Typography>
             {/* Loop through the recommended movies */}
-            {recommendation?<MovieList movies={recommendation}/>
+            {recommendation && recommendation
+            ?<MovieList movies={recommendation}/>
             :<Box>Sorry, nothing was found</Box>}
 
       </Box>
+      <Modal closeAfterTransition className={classes.modal} open={open} onClose={() => setOpen(false)}>
+        {data?.videos?.results?.length>0 && (
+          <iframe
+            autoPlay
+            className={classes.videos}
+            style={{border: '0'}}         
+            title='Trailer'
+            src={`https://youtube.com/embed/${data.videos.results[0].key}`}
+            allow='autoPlay'
+          />
+        )}
+      </Modal>
     </Grid >
   );
 };
