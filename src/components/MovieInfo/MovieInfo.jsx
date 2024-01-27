@@ -77,6 +77,19 @@ const MovieInfo = () => {
         <Typography variant='h5' gutterBottom style={{marginTop: '10px'}}>
           Overview
         </Typography>
+        <Typography style={{marginBottom:'2rem'}}>
+          {data?.overview}
+        </Typography>
+        <Typography variant='h5' gutterBottom style={{}}>
+          Top Casts
+        </Typography>
+        <Grid item container spacing={2}>
+          {data && data?.credits?.cast?.map((characters,i)=>(
+            <Grid key={i}item xs={4} md={2} component={Link} to={`/actors/${characters.id}`} style={{textDecoration:'none'}}>
+              <img className={classes.castImage} src={`https://image.tmdb.org/t/p/w500/${characters.profile_path}`}  alt={characters.name} />
+             </Grid>
+          ))}
+        </Grid>
       </Grid >
     </Grid >
   );
