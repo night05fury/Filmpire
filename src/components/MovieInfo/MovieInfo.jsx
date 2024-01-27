@@ -4,11 +4,11 @@ import { Movie as MovieIcon, Theaters, Language, PlusOne, Favorite, FavoriteBord
 import { Link, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Axios } from 'axios';
-import { useGetMovieQuery } from '../../services/TMDB';
+import { useGetMovieQuery,useGetRecommendationQuery } from '../../services/TMDB';
 import useStyles from './styles';
 import GenreIcon from '../../assets/genres';
 import { selectGenreorCategory } from '../../features/currentGenreorCategory';
-
+import {MovieList}from '..';
 
 
 const MovieInfo = () => {
@@ -16,15 +16,19 @@ const MovieInfo = () => {
   const classes = useStyles();
   const dispatch = useDispatch(); // to send an action to the store
   const { data, isFetching, error } = useGetMovieQuery(id);
+  const {data:recommendation,isFetching:isRecommendationsFetching} = useGetRecommendationQuery({list:'/recommendations',movie_id:id});  // using the hook here for passing the list and movie id
   const isMovieFavorited = true;
   const isMovieWatchlisted = true;
   const addToFavorites=() => {
-
+// to be filled in later
 };
 const addToWatchlist=() => {
-
+// to be filled in later
 };
+
+// *** Console Log here for debugging ***
   console.log(data);
+  console.log(recommendation);
 
   if (isFetching) {
     return (
@@ -136,6 +140,15 @@ const addToWatchlist=() => {
           </div>
         </Grid>
       </Grid >
+      <Box marginTop='5rem' width='100%'>
+            <Typography variant='h4' gutterBottom align='center'>
+             You Might Also Like This
+            </Typography>
+            {/* Loop through the recommended movies */}
+            {recommendation?<MovieList movies={data}/>
+            :<Box>Sorry, nothing was found</Box>}
+
+      </Box>
     </Grid >
   );
 };

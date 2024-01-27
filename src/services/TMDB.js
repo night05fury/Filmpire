@@ -39,11 +39,16 @@ export const tmdbApi = createApi({
     //* Getting the Movie informations like Videos , Ratings, credits, actors ,etc.
     getMovie: builder.query({
       query:(id)=>`/movie/${id}?append_to_response=videos,credits&api_key=${API_KEY}`,
-    }) 
+    }),
+
+    //* Getting User Specific Information
+    getRecommendation: builder.query({
+      query:(movie_id,list)=>`/movie/${movie_id}/${list}?api_key=${API_KEY}`,
+    }),
   }),
 });
 
 export const {
-  useGetMoviesQuery, useGetGenresQuery,useGetMovieQuery
+  useGetMoviesQuery, useGetGenresQuery,useGetMovieQuery,useGetRecommendationQuery
 
 } = tmdbApi;
