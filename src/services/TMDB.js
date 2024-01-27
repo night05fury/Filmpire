@@ -43,7 +43,7 @@ export const tmdbApi = createApi({
 
     //* Getting User Specific Information
     getRecommendation: builder.query({
-      query:(movie_id,list)=>`/movie/${movie_id}/${list}?api_key=${API_KEY}`,
+      query:({movie_id,list})=>`/movie/${movie_id}/${list}?api_key=${API_KEY}`,
     }),
   }),
 });

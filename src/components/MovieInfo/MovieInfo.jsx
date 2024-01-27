@@ -142,10 +142,10 @@ const addToWatchlist=() => {
       </Grid >
       <Box marginTop='5rem' width='100%'>
             <Typography variant='h4' gutterBottom align='center'>
-             You Might Also Like This
+             You Might Also Like 
             </Typography>
             {/* Loop through the recommended movies */}
-            {recommendation?<MovieList movies={data}/>
+            {recommendation?<MovieList movies={recommendation}/>
             :<Box>Sorry, nothing was found</Box>}
 
       </Box>
