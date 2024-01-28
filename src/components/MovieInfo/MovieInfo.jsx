@@ -141,6 +141,7 @@ const addToWatchlist=() => {
           </div>
         </Grid>
       </Grid >
+      {/* Movies recommendation based on what you might like  */}
       <Box marginTop='5rem' width='100%'>
             <Typography variant='h4' gutterBottom align='center'>
              You Might Also Like 

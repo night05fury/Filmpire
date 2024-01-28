@@ -1,22 +1,23 @@
 import { Box, Typography, CircularProgress, Grid,Button } from '@mui/material';
 import React from 'react';
 import { useHistory, Link, useParams } from 'react-router-dom';
-import { useGetActorDetailsQuery } from '../../services/TMDB';
+import { useGetActorDetailsQuery, useGetMoviesByActorIDQuery } from '../../services/TMDB';
 import { useDispatch } from 'react-redux';
 import useStyles from './styles';
 import { ArrowBack } from '@mui/icons-material';
-
+import {MovieList} from '..';
 
 
 const Actors = () => {
   const { id }=useParams();
   const classes = useStyles();
   const history=useHistory();
-
+  const page=1;
 
 
 
   const {data, isFetching, error} = useGetActorDetailsQuery(id);
+  const {data:recommendation, isFetching:isRecommendationsFetching}=useGetMoviesByActorIDQuery({id , page});
   console.log(id);
   console.log(data);
   
@@ -40,15 +41,47 @@ const Actors = () => {
   }
 
 return(
-
+<>
   <Grid  container spacing={3} >
+  {/* Actor's image is displayed here */}
       <Grid item lg={5} xl={4} >
         <img className={classes.image}
         src={`https://image.tmdb.org/t/p/w780/${data?.profile_path}`}
         alt={data?.name}
         />
       </Grid>
+      {/* Actor's information is displayed here */}
+      <Grid item lg={7} xl={8} style={{display: 'flex', justifyContent:'center' , flexDirection:'column'}}>
+        <Typography variant='h2' gutterBottom>
+          {data?.name}
+        </Typography>
+        {/* actors' Date of Birth */}
+        <Typography variant='h5' gutterBottom>
+          Born:{new Date(data?.birthday).toDateString()}
+        </Typography>
+
+        {/* About the actor  */}
+        <Typography variant='body1'  align='justify'paragraph>
+          {data?.biography || 'Sorry, No biography available'}
+        </Typography>
+        <Box marginTop='2rem' display='flex' justifyContent='space-around'>
+          <Button variant='contained' color='primary' target='_blank' href={`https://www.imdb.com/name/${data?.imdb_id}`}>IMDB</Button>
+          <Button startIcon={<ArrowBack/>} color='primary' onClick={()=>history.goBack()}>Back</Button>
+        </Box>
+      </Grid>
   </Grid>
+  {/* Movies Recommendation based on the actor */}
+  <Box margin='2rem 0' width='100%'>
+  <Typography variant='h2' gutterBottom align='center'>
+    Movies
+  </Typography>
+  {/* Loop through the recommended movies */}
+  {recommendation && recommendation
+  ?<MovieList movies={recommendation} numberOfMovies={12}/>
+  :<Box>Sorry, nothing was found</Box>}
+
+</Box>
+</>
 );
 
 
