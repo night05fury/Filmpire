@@ -29,7 +29,7 @@ const addToWatchlist=() => {
 
 // *** Console Log here for debugging ***
   console.log(data);
-  console.log(recommendation);
+  //console.log(recommendation);
 
   if (isFetching) {
     return (
@@ -110,7 +110,7 @@ const addToWatchlist=() => {
               </Typography>
               <Typography color='textSecondary'>{characters.character.split('/')[0]}</Typography>
             </Grid>
-          )).slice(0,8) } {/*Displaying the top casts only */}
+          )).slice(0,6) } {/*Displaying the top casts only */}
         </Grid> 
         {/* Displaying the Buttons for Homepage of Movie ,IMDB, Addd to Favorites , and Add to watchlists */}
         <Grid item container style={{marginTop:'2rem'}}>

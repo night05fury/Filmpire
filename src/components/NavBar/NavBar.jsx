@@ -23,8 +23,8 @@ const NavBar = () => {
 
 
   const { isAuthenticated, user } = useSelector(selectUser);
-  console.log(isAuthenticated);
-  console.log(user);
+  // console.log(isAuthenticated);
+  // console.log(user);
   useEffect(() => {
     const logInUser = async () => {
       const token = localStorage.getItem('request_token');
