@@ -1,5 +1,17 @@
-import { makeStyles } from "@mui/material";
+import { makeStyles } from '@mui/styles';
 
-export default styles = makeStyles((theme)=>({
+export default makeStyles((theme) => ({
 
-}))
+    container:{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    Button:{
+        margin: '30px 2px',
+    },
+    pageNumber:{
+        margin: '0 20px !important',
+        color:'theme.palette.text.primary',
+    },
+}));
