@@ -8,7 +8,7 @@ const MovieList = ({ movies, numberOfMovies }) => {
 
   return (
     // Using the Grid Template for displaying the Movies
-    <Grid container className={classes.moviesConatiner}>
+    <Grid container className={classes.moviesContainer}>
       {movies.results.slice(0,numberOfMovies).map((movie, i) => (
         <Movie key={i} movie={movie} i={i} />
       ))}

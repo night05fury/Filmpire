@@ -12,7 +12,8 @@ const Movies = () => {
   // creating a data variable to store the data from the API
   const [page, setPage] = useState(1);
   const { currentGenreIDorCategoryName, searchQuery } = useSelector((state) => state.currentGenreorCategory);
-
+  const lg=useMediaQuery((theme) =>theme.breakpoints.only('lg') );
+  const numberOfMovies=lg?16:18;
   // console.log(currentGenreIDorCategoryName);
   const { data, error, isFetching } = useGetMoviesQuery({ currentGenreIDorCategoryName, page, searchQuery });
   // console.log(data);
@@ -40,9 +41,9 @@ const Movies = () => {
 
   return (
     <div>
-      <MovieList movies={data} />
+      <MovieList movies={data} numberOfMovies={numberOfMovies}/>
       {/* Pagination block */}
-      <Paginations />
+      <Paginations currentPage={page} setPage={ setPage} totalPages={data.total_pages}/>
     </div>
   );
 };

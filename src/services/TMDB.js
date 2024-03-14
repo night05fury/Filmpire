@@ -20,7 +20,7 @@ export const tmdbApi = createApi({
       query: ({ currentGenreIDorCategoryName, page, searchQuery }) => {
         //* Get Movie by Search Query
         if (searchQuery) {
-          return `/search/movie?query=${searchQuery}&page=${page}&api_key=${API_KEY}`;
+          return `search/movie?query=${searchQuery}&page=${page}&api_key=${API_KEY}`;
         }
 
         // * Get Movie by Categories e.g. Top rated , Popular, Now Playing, Upcoming
@@ -36,7 +36,7 @@ export const tmdbApi = createApi({
     }), // end of query
   
 
-    //* Getting the Movie informations like Videos , Ratings, credits, actors ,etc.
+    //* Getting the Movie information like Videos , Ratings, credits, actors ,etc.
     getMovie: builder.query({
       query:(id)=>`/movie/${id}?append_to_response=videos,credits&api_key=${API_KEY}`,
     }),
@@ -51,7 +51,7 @@ export const tmdbApi = createApi({
     }),
     //* Getting Actor Specific Movies
     getMoviesByActorID: builder.query({
-      query:({act_id, page})=>`/discover/movie?with_cast=${act_id}&page=${page}&api_key=${API_KEY}`,
+      query:({act_id, page})=>`discover/movie?with_cast=${act_id}&page=${page}&api_key=${API_KEY}`,
     }),
   }),
 });
