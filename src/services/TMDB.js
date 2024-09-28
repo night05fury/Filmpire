@@ -35,6 +35,9 @@ export const tmdbApi = createApi({
       },
     }), // end of query
   
+    getlist: builder.query({
+      query: ({listname,account_id,sessionId,page})=>`/account/${account_id}/${listname}?api_key=${API_KEY}&session_id=${sessionId}&page=${page}`,
+    }),
 
     //* Getting the Movie information like Videos , Ratings, credits, actors ,etc.
     getMovie: builder.query({
@@ -43,15 +46,15 @@ export const tmdbApi = createApi({
 
     //* Getting User Specific Information
     getRecommendation: builder.query({
-      query:({movie_id,list})=>`/movie/${movie_id}/${list}?api_key=${API_KEY}`,
+      query:({movie_id,list})=>`/movie/${movie_id}/recommendations?api_key=${API_KEY}`,
     }),
     //* Getting Actor Specific Information
     getActorDetails: builder.query({
       query:(act_id)=>`/person/${act_id}?api_key=${API_KEY}`,
     }),
     //* Getting Actor Specific Movies
-    getMoviesByActorID: builder.query({
-      query:({act_id, page})=>`discover/movie?with_cast=${act_id}&page=${page}&api_key=${API_KEY}`,
+    getMoviesByActorId: builder.query({
+      query:(act_id)=>`discover/movie?with_cast=${act_id}&api_key=${API_KEY}`,
     }),
   }),
 });
@@ -59,6 +62,6 @@ export const tmdbApi = createApi({
 export const {
   useGetMoviesQuery, useGetGenresQuery,
   useGetMovieQuery,useGetRecommendationQuery,
-  useGetActorDetailsQuery,useGetMoviesByActorIDQuery,
+  useGetActorDetailsQuery,useGetMoviesByActorIdQuery,useGetlistQuery,
 
 } = tmdbApi;

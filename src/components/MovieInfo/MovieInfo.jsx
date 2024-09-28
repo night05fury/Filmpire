@@ -1,42 +1,75 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { Modal, Typography, Rating, Button, ButtonGroup, Grid, Box, CircularProgress, useMediaQuery } from '@mui/material';
 import { Movie as MovieIcon, Theaters, Language, PlusOne, Favorite, FavoriteBorderOutlined, Remove, ArrowBack, Celebration, Add, ArrowRight, ArrowLeft } from '@mui/icons-material';
 import { Link, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { Axios } from 'axios';
-import { useGetMovieQuery,useGetRecommendationQuery } from '../../services/TMDB';
+import  axios  from 'axios';
+import { useGetlistQuery, useGetMovieQuery,useGetRecommendationQuery } from '../../services/TMDB';
 import useStyles from './styles';
 import GenreIcon from '../../assets/genres';
 import { selectGenreorCategory } from '../../features/currentGenreorCategory';
 import {MovieList}from '..';
-
+import {selectUser} from '../../features/auth';
 
 const MovieInfo = () => {
+  const {user}=useSelector(selectUser); // to get the user from the store
+ 
   const { id } = useParams();
   const classes = useStyles();
   const dispatch = useDispatch(); // to send an action to the store
   const { data, isFetching, error } = useGetMovieQuery(id);
   const {data:recommendation,isFetching:isRecommendationsFetching} = useGetRecommendationQuery({list:'/recommendations',movie_id:id});  // using the hook here for passing the list and movie id
-  const isMovieFavorited = true;
-  const isMovieWatchlisted = true;
+
   const [open,setOpen] = useState(false); 
-  const addToFavorites=() => {
-// to be filled in later
+  const {data:favoriteMovies}=useGetlistQuery({listname:'favorite/movies',account_id:user.id,sessionId:localStorage.getItem('session_id'), page:1}); 
+  const {data:watchlistMovies}=useGetlistQuery({listname:'watchlist/movies',account_id:user.id,sessionId:localStorage.getItem('session_id'), page:1}); 
+
+  const [isMovieFavorited, setIsMovieFavorited] = useState(false);
+  const [isMovieWatchlisted, setIsMovieWatchlisted] = useState(false);
+
+useEffect(()=>{
+  if(favoriteMovies){
+    setIsMovieFavorited(!!favoriteMovies?.results.some((movie)=>movie?.id===data?.id));
+  }
+  if(watchlistMovies){
+    setIsMovieWatchlisted(!!watchlistMovies?.results.some((movie)=>movie?.id===data?.id));
+  }
+},[favoriteMovies,watchlistMovies,data]);
+
+
+  const addToFavorites = async () => {
+    console.log('favorite button clicked');
+    await axios.post(`https://api.themoviedb.org/3/account/${user.id}/favorite?api_key=${process.env.REACT_APP_TMDB_API_KEY}&session_id=${localStorage.getItem('session_id')}`,{
+
+      
+      media_type: 'movie',
+      media_id: id,
+      favorite:!isMovieFavorited,
+    }
+    );
+    setIsMovieFavorited((prev)=>!prev);
+
 };
-const addToWatchlist=() => {
-// to be filled in later
+const addToWatchlist = async () => {
+  await axios.post(`https://api.themoviedb.org/3/account/${user.id}/watchlist?api_key=${process.env.REACT_APP_TMDB_API_KEY}&session_id=${localStorage.getItem('session_id')}`,{
+
+    
+    media_type: 'movie',
+    media_id: id,
+    watchlist:!isMovieWatchlisted,
+  }
+  );
+  setIsMovieWatchlisted((prev) => !prev);
 };
 
 // *** Console Log here for debugging ***
-  console.log(data);
+  // console.log(data);
   //console.log(recommendation);
 
   if (isFetching) {
     return (
       <Box display="flex" justifyContent="center">
         <CircularProgress size="8rem" />
-
-
       </Box>
     );
   }
@@ -47,6 +80,8 @@ const addToWatchlist=() => {
       </Box>
     );
   }
+
+  //console.log("from u might like",recommendation);
   return ( 
     // movier poster
     <Grid container className={classes.containerSpace}>
@@ -127,10 +162,10 @@ const addToWatchlist=() => {
           <Grid item xs={12} sm={6} className={classes.buttonContainer}>
             <ButtonGroup size='small' variant='outlined'>
               
-              <Button onClick={()=>{addToFavorites}}  endIcon={isMovieFavorited? <FavoriteBorderOutlined/>:<Favorite/>}>
+              <Button onClick={addToFavorites} endIcon={isMovieFavorited? <FavoriteBorderOutlined/>:<Favorite/>}>
                 {isMovieFavorited?'Unfavorite':'Favorite'}
               </Button>
-              <Button onClick={()=>{addToWatchlist}}  endIcon={isMovieWatchlisted? <Remove/>:<PlusOne/>}>
+              <Button onClick={addToWatchlist}  endIcon={isMovieWatchlisted? <Remove/>:<PlusOne/>}>
                 WATCHLIST
               </Button>
               <Button  endIcon={<ArrowBack/>} sx={{borderColor:'primary.main'}}>
@@ -143,12 +178,14 @@ const addToWatchlist=() => {
       </Grid >
       {/* Movies recommendation based on what you might like  */}
       <Box marginTop='5rem' width='100%'>
+      
             <Typography variant='h4' gutterBottom align='center'>
              You Might Also Like 
+             
             </Typography>
             {/* Loop through the recommended movies */}
             {recommendation && recommendation
-            ?<MovieList movies={recommendation}/>
+            ?<MovieList movies={recommendation} />
             :<Box>Sorry, nothing was found</Box>}
 
       </Box>

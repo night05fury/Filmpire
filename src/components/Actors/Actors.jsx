@@ -1,7 +1,7 @@
 import { Box, Typography, CircularProgress, Grid, Button } from '@mui/material';
 import React, { useState } from 'react';
 import { useHistory, Link, useParams } from 'react-router-dom';
-import { useGetActorDetailsQuery, useGetMoviesByActorIDQuery } from '../../services/TMDB';
+import { useGetActorDetailsQuery, useGetMoviesByActorIdQuery } from '../../services/TMDB';
 import { useDispatch } from 'react-redux';
 import useStyles from './styles';
 import { ArrowBack } from '@mui/icons-material';
@@ -15,10 +15,8 @@ const Actors = () => {
   const [page,setPage] = useState(1);
   
   const { data, isFetching, error } = useGetActorDetailsQuery(id);
-  const { data:recommendation } = useGetMoviesByActorIDQuery({ id, page });
-  // // console.log(data);
-  //  console.log(recommendation);
-  //  console.log(id);
+  const { data:recommendation } = useGetMoviesByActorIdQuery(id);
+
 
 
   if (isFetching) {

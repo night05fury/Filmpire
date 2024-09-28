@@ -1,5 +1,5 @@
 /* eslint-disable no-multiple-empty-lines */
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { AppBar, Toolbar, IconButton, Drawer, Button, Avatar, useMediaQuery } from '@mui/material';
 import { Menu, AccountCircle, Brightness4, Brightness7 } from '@mui/icons-material';
 import { Link } from 'react-router-dom';
@@ -10,6 +10,7 @@ import Sidebar from '../Sidebar/Sidebar';
 import Search from '../Search/Search';
 import { fetchToken, createSessionId, moviesAPI } from '../../utils';
 import { setUserLoginDetails, selectUser } from '../../features/auth';
+import {DarkModeContext} from '../../utils/ToggleDarkMode';
 
 const NavBar = () => {
   // using hooks here for styling and media queries
@@ -18,9 +19,9 @@ const NavBar = () => {
   const classes = useStyles();
   const isMobile = useMediaQuery('(max-width: 600px)');
   const theme = useTheme();
-
   const dispatch = useDispatch();
 
+  const darkMode=useContext(DarkModeContext);
 
   const { isAuthenticated, user } = useSelector(selectUser);
   // console.log(isAuthenticated);
@@ -64,7 +65,7 @@ const NavBar = () => {
           <IconButton
             color="inherit"
             sx={{ ml: 1 }}
-            onClick={() => {}}
+            onClick={darkMode.toggleColorMode}
           >
             {/* this is for the Toggling of Light mode and dark mode */}
             {theme.palette.mode === 'dark' ? <Brightness7 /> : <Brightness4 />}

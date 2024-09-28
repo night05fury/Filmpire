@@ -6,16 +6,17 @@ import { Provider } from 'react-redux';
 import store from './app/store';
 
 import App from './components/App';
+import ToggleDarkMode from './utils/ToggleDarkMode';
 
 const theme = createTheme({});
 
 ReactDOM.render(
   <Provider store={store}>
-    <ThemeProvider theme={theme}>
+    <ToggleDarkMode>
       <BrowserRouter>
         <App />
       </BrowserRouter>,
-    </ThemeProvider>,
+    </ToggleDarkMode>,
   </Provider>,
   document.getElementById('root'),
 );
